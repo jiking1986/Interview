@@ -1,3 +1,4 @@
+#if 0
 #include <memory>
 #include <iostream>
 #include <cassert>
@@ -35,6 +36,7 @@ int main()
 
     delete fp;
 }
+#endif
 
 #if 0
 #include <iostream>
@@ -68,3 +70,50 @@ int main()
     observe();
 }
 #endif
+
+#include <memory>
+#include <thread>
+#include <iostream>
+
+int test_error1()
+{
+    int *p = new int(1);
+    std::cout << *p << std::endl;
+
+    std::shared_ptr<int> ptr = std::shared_ptr<int>(p);
+    std::cout << *ptr << std::endl;
+
+    ptr.reset();
+
+    std::cout << *p << std::endl; // error
+
+    return 0;
+}
+
+int test_error2()
+{
+    int *p = new int(1);
+
+    auto test = [](int *p)
+    {
+        std::shared_ptr<int> ptr = std::shared_ptr<int>(p);
+        std::cout << *ptr << std::endl;
+    }; // error
+
+    std::thread th1(test, p);
+    std::thread th2(test, p);
+
+    th1.join();
+    th2.join();
+
+    return 0;
+}
+
+int main()
+{
+    test_error1();
+
+    test_error2();
+
+    return 0;
+}
