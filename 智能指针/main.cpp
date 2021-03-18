@@ -109,8 +109,36 @@ int test_error2()
     return 0;
 }
 
+std::unique_ptr <int>test_unique_ptr_return()
+{
+    std::unique_ptr<int> p = std::make_unique<int>();
+
+    *p = 222;
+
+    return p;
+}
+
+int test_unique_ptr()
+{
+    std::unique_ptr<int> p = std::make_unique<int>();
+
+    *p = 1231;
+
+    std::unique_ptr<int> p2 = std::move(p);
+
+    std::unique_ptr<int> p3;
+    //p3 = p2; // error
+    p3 = std::move(p2);
+
+    std::unique_ptr<int> p4 = test_unique_ptr_return();
+
+    return 0;
+}
+
 int main()
 {
+    test_unique_ptr();
+
     test_error1();
 
     test_error2();

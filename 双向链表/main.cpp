@@ -17,11 +17,11 @@ template<typename T>
 class CDLink {
 public:
     CDLink();
-    CDLink(const CDLink &other);
+    CDLink(CDLink<T> &other);
     ~CDLink();
 
 public:
-    CDLink &operator=(const CDLink& other);
+    //CDLink &operator=(const CDLink& other);
 
     int size();
     bool isEmpty();
@@ -52,9 +52,11 @@ CDLink<T>::CDLink() : m_head(nullptr), m_count(0)
 }
 
 template <typename T>
-CDLink<T>::CDLink(const CDLink &other) : m_head(nullptr), m_count(0)
+CDLink<T>::CDLink(CDLink<T> &other) : m_head(nullptr), m_count(0)
 {
     printf("CDLink(const CDLink &other)\r\n");
+
+    other.size();
 
     //DNode<T> *p = m_head;
     //DNode<T> *pOther = other.head();
@@ -83,11 +85,11 @@ CDLink<T>::~CDLink()
     this->clear();
 }
 
-template <typename T>
-CDLink<T> &CDLink<T>::operator=(const CDLink<T>& other)
-{
-    return *this;
-}
+//template <typename T>
+//CDLink<T> &CDLink<T>::operator=(const CDLink<T>& other)
+//{
+//    return *this;
+//}
 
 template <typename T>
 DNode<T> *CDLink<T>::getNode(int index)
